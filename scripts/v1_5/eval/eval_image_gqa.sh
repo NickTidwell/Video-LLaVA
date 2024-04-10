@@ -15,7 +15,7 @@ for IDX in $(seq 0 $((CHUNKS-1))); do
     CUDA_VISIBLE_DEVICES=${GPULIST[$IDX]} python3 -m videollava.eval.model_vqa_loader \
         --model-path ${CKPT} \
         --question-file ${EVAL}/gqa/$SPLIT.jsonl \
-        --image-folder ${EVAL}/gqa/data/images \
+        --image-folder /datasets/GQA/images/ \
         --answers-file ${EVAL}/gqa/answers/$SPLIT/${CKPT_NAME}/${CHUNKS}_${IDX}.jsonl \
         --num-chunks $CHUNKS \
         --chunk-idx $IDX \
