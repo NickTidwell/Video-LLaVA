@@ -126,33 +126,33 @@ def main():
     num_tasks = args.num_tasks
 
     # While loop to ensure that all captions are processed.
-    while True:
-        try:
+    # while True:
+    #     try:
             # Files that have not been processed yet.
-            completed_files = os.listdir(output_dir)
-            print(f"completed_files: {len(completed_files)}")
+            # completed_files = os.listdir(output_dir)
+            # print(f"completed_files: {len(completed_files)}")
 
-            # Files that have not been processed yet.
-            incomplete_files = [f for f in caption_files if f not in completed_files]
-            print(f"incomplete_files: {len(incomplete_files)}")
+            # # Files that have not been processed yet.
+            # incomplete_files = [f for f in caption_files if f not in completed_files]
+            # print(f"incomplete_files: {len(incomplete_files)}")
 
-            # Break the loop when there are no incomplete files
-            if len(incomplete_files) == 0:
-                break
-            if len(incomplete_files) <= num_tasks:
-                num_tasks = 1
+            # # Break the loop when there are no incomplete files
+            # if len(incomplete_files) == 0:
+            #     break
+            # if len(incomplete_files) <= num_tasks:
+            #     num_tasks = 1
 
             # Split tasks into parts.
-            part_len = len(incomplete_files) // num_tasks
-            all_parts = [incomplete_files[i:i + part_len] for i in range(0, len(incomplete_files), part_len)]
-            task_args = [(prediction_set, part, args.output_dir, args) for part in all_parts]
+            # part_len = len(incomplete_files) // num_tasks
+            # all_parts = [incomplete_files[i:i + part_len] for i in range(0, len(incomplete_files), part_len)]
+            # task_args = [(prediction_set, part, args.output_dir, args) for part in all_parts]
 
             # Use a pool of workers to process the files in parallel.
-            with Pool() as pool:
-                pool.starmap(annotate, task_args)
+            # with Pool() as pool:
+            #     pool.starmap(annotate, task_args)
 
-        except Exception as e:
-            print(f"Error: {e}")
+        # except Exception as e:
+        #     print(f"Error: {e}")
 
     # Combine all the processed files into one
     combined_contents = {}
@@ -172,7 +172,7 @@ def main():
     print("All evaluation completed!")
 
     # Calculate average score and accuracy
-    score_sum = 0
+    # score_sum = 0
     count = 0
     yes_count = 0
     no_count = 0
@@ -180,9 +180,9 @@ def main():
         try:
             # Computing score
             count += 1
-            score_match = result[0]['score']
-            score = int(score_match)
-            score_sum += score
+            # score_match = result[0]['score']
+            # score = int(score_match)
+            # score_sum += score
 
             # Computing accuracy
             pred = result[0]['pred']
@@ -193,12 +193,12 @@ def main():
         except:
             print(result)
 
-    average_score = score_sum / count
+    # average_score = score_sum / count
     accuracy = yes_count / (yes_count + no_count)
     print("Yes count:", yes_count)
     print("No count:", no_count)
     print("Accuracy:", accuracy)
-    print("Average score:", average_score)
+    # print("Average score:", average_score)
 
 
 if __name__ == "__main__":

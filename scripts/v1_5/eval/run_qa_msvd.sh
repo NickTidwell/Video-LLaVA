@@ -1,10 +1,10 @@
 
 
 CKPT_NAME="Video-LLaVA-7B"
-model_path="checkpoints/${CKPT_NAME}"
+model_path="LanguageBind/${CKPT_NAME}"
 cache_dir="./cache_dir"
 GPT_Zero_Shot_QA="eval/GPT_Zero_Shot_QA"
-video_dir="${GPT_Zero_Shot_QA}/MSVD_Zero_Shot_QA/videos"
+video_dir="/datasets/MSVD/YouTubeClips"
 gt_file_question="${GPT_Zero_Shot_QA}/MSVD_Zero_Shot_QA/test_q.json"
 gt_file_answers="${GPT_Zero_Shot_QA}/MSVD_Zero_Shot_QA/test_a.json"
 output_dir="${GPT_Zero_Shot_QA}/MSVD_Zero_Shot_QA/${CKPT_NAME}"
@@ -40,3 +40,4 @@ output_file=${output_dir}/merge.jsonl
 for IDX in $(seq 0 $((CHUNKS-1))); do
     cat ${output_dir}/${CHUNKS}_${IDX}.json >> "$output_file"
 done
+

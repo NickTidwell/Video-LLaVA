@@ -15,6 +15,4 @@ python3 videollava/eval/video/eval_video_qa.py \
     --pred_path ${pred_path} \
     --output_dir ${output_dir} \
     --output_json ${output_json} \
-    --api_key ${api_key} \
-    --api_base ${api_base} \
     --num_tasks ${num_tasks}
