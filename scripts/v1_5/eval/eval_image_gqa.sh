@@ -27,13 +27,13 @@ wait
 
 output_file=${EVAL}/gqa/answers/$SPLIT/${CKPT_NAME}/merge.jsonl
 
-# Clear out the output file if it exists.
-> "$output_file"
+# # Clear out the output file if it exists.
+# > "$output_file"
 
-# Loop through the indices and concatenate each file.
-for IDX in $(seq 0 $((CHUNKS-1))); do
-    cat ${EVAL}/gqa/answers/$SPLIT/${CKPT_NAME}/${CHUNKS}_${IDX}.jsonl >> "$output_file"
-done
+# # Loop through the indices and concatenate each file.
+# for IDX in $(seq 0 $((CHUNKS-1))); do
+#     cat ${EVAL}/gqa/answers/$SPLIT/${CKPT_NAME}/${CHUNKS}_${IDX}.jsonl >> "$output_file"
+# done
 echo USING OUTPUT_FILE as src: $output_file
 echo "Creatign DIR: $GQADIR/$SPLIT/${CKPT_NAME}/testdev_balanced_predictions.json and writing outpu"
 mkdir -p $GQADIR/$SPLIT/${CKPT_NAME}
