@@ -26,4 +26,5 @@ if __name__ == "__main__":
 
     cur_df.to_excel(os.path.join(args.upload_dir, f"{args.experiment}.xlsx"), index=False, engine='openpyxl')
     accuracy = (cur_df['prediction'] == cur_df['answer']).mean()
-    print("Accuracy: " + accuracy)
+    print("Accuracy: ")
+    print(accuracy)
