@@ -11,7 +11,7 @@ from videollava.model.builder import load_pretrained_model
 from videollava.utils import disable_torch_init
 from videollava.mm_utils import tokenizer_image_token, process_images, get_model_name_from_path
 from torch.utils.data import Dataset, DataLoader
-
+import numpy as np
 from PIL import Image
 import math
 
@@ -49,12 +49,16 @@ class CustomDataset(Dataset):
         conv.append_message(conv.roles[0], qs)
         conv.append_message(conv.roles[1], None)
         prompt = conv.get_prompt()
+        try:
+            image = Image.open(os.path.join(self.image_folder, image_file)).convert('RGB')
+            
+            image_tensor = process_images([image], self.image_processor, self.model_config)[0]
 
-        image = Image.open(os.path.join(self.image_folder, image_file)).convert('RGB')
-        image_tensor = process_images([image], self.image_processor, self.model_config)[0]
-
-        input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt')
-
+            input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt')
+        except FileNotFoundError:
+            # If the image does not exist, create a fake image tensor
+            fake_image = np.zeros((640, 520, 3), dtype=np.uint8)
+            image = Image.fromarray(fake_image)
         return input_ids, image_tensor
 
     def __len__(self):
