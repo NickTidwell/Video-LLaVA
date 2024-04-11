@@ -13,6 +13,8 @@ python3 -m videollava.eval.model_vqa \
 
 mkdir -p ${EVAL}/llava-bench-in-the-wild/reviews
 
+echo reviewing bench
+
 python3 videollava/eval/eval_gpt_review_bench.py \
     --question ${EVAL}/llava-bench-in-the-wild/questions.jsonl \
     --context ${EVAL}/llava-bench-in-the-wild/context.jsonl \
@@ -21,4 +23,8 @@ python3 videollava/eval/eval_gpt_review_bench.py \
                   ${EVAL}/llava-bench-in-the-wild/answers/${CKPT_NAME}.jsonl \
     --output ${EVAL}/llava-bench-in-the-wild/reviews/${CKPT_NAME}.jsonl
 
+echo reviewing GPT SUMMERIZE
+
 python3 videollava/eval/summarize_gpt_review.py -f ${EVAL}/llava-bench-in-the-wild/reviews/${CKPT_NAME}.jsonl
+
+echo congrats complete

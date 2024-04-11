@@ -16,7 +16,9 @@ python3 -m videollava.eval.model_vqa_mmbench \
     --conv-mode vicuna_v1
 echo Creating Dir
 mkdir -p ${EVAL}/mmbench/answers_upload/$SPLIT
-print("Doing thing for submissions")
+
+echo Doing thing for submissions
+
 python3 scripts/convert_mmbench_for_submission.py \
     --annotation-file ${EVAL}/mmbench/$SPLIT.tsv \
     --result-dir ${EVAL}/mmbench/answers/$SPLIT \
