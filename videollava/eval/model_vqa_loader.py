@@ -52,13 +52,13 @@ class CustomDataset(Dataset):
         try:
             image = Image.open(os.path.join(self.image_folder, image_file)).convert('RGB')
             
-            image_tensor = process_images([image], self.image_processor, self.model_config)[0]
 
-            input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt')
         except FileNotFoundError:
             # If the image does not exist, create a fake image tensor
             fake_image = np.zeros((640, 520, 3), dtype=np.uint8)
             image = Image.fromarray(fake_image)
+        image_tensor = process_images([image], self.image_processor, self.model_config)[0]
+        input_ids = tokenizer_image_token(prompt, self.tokenizer, IMAGE_TOKEN_INDEX, return_tensors='pt')
         return input_ids, image_tensor
 
     def __len__(self):
