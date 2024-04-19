@@ -86,24 +86,7 @@ def main():
     file = open(args.pred_path)
     new_pred_contents = [eval(i.strip()) for i in file.readlines()]
 
-    '''
-    # Dictionary to store the count of occurrences for each video_id
-    video_id_counts = {}
-    new_pred_contents = []
 
-    # Iterate through each sample in pred_contents
-    for sample in pred_contents:
-        video_id = sample['video_name']
-        if video_id in video_id_counts:
-            video_id_counts[video_id] += 1
-        else:
-            video_id_counts[video_id] = 0
-
-        # Create a new sample with the modified key
-        new_sample = sample
-        new_sample['video_name'] = f"{video_id}_{video_id_counts[video_id]}"
-        new_pred_contents.append(new_sample)
-    '''
     # Generating list of id's and corresponding files
     id_list = [x['id'] for x in new_pred_contents]
     caption_files = [f"{id}.json" for id in id_list]
@@ -124,35 +107,6 @@ def main():
         prediction_set[id] = qa_set
 
     num_tasks = args.num_tasks
-
-    # While loop to ensure that all captions are processed.
-    # while True:
-    #     try:
-            # Files that have not been processed yet.
-            # completed_files = os.listdir(output_dir)
-            # print(f"completed_files: {len(completed_files)}")
-
-            # # Files that have not been processed yet.
-            # incomplete_files = [f for f in caption_files if f not in completed_files]
-            # print(f"incomplete_files: {len(incomplete_files)}")
-
-            # # Break the loop when there are no incomplete files
-            # if len(incomplete_files) == 0:
-            #     break
-            # if len(incomplete_files) <= num_tasks:
-            #     num_tasks = 1
-
-            # Split tasks into parts.
-            # part_len = len(incomplete_files) // num_tasks
-            # all_parts = [incomplete_files[i:i + part_len] for i in range(0, len(incomplete_files), part_len)]
-            # task_args = [(prediction_set, part, args.output_dir, args) for part in all_parts]
-
-            # Use a pool of workers to process the files in parallel.
-            # with Pool() as pool:
-            #     pool.starmap(annotate, task_args)
-
-        # except Exception as e:
-        #     print(f"Error: {e}")
 
     # Combine all the processed files into one
     combined_contents = {}
