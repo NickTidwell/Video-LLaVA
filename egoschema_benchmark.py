@@ -77,6 +77,7 @@ def benchmark():
 
     ans_freq = defaultdict(int)
 
+
     total = 0
     query1_correct = 0
     query2_correct = 0
@@ -102,7 +103,8 @@ def benchmark():
                     Which of these responses best answer the question. Respond 1,2,3,4, or 5
         """
         
-        output_1 = parse_pred(generate(video_path, query_1))
+        raw_out = generate(video_path, query_1)
+        output_1 = parse_pred(raw_out)
         output_2 = parse_pred(generate(video_path, query_2))
         output_3 = parse_pred(generate(video_path, query_3))
 
@@ -115,6 +117,10 @@ def benchmark():
         pred_freq2[output_2] += 1
         pred_freq3[output_3] += 1
         ans_freq[answer] += 1
+
+        print(f"query: {query_1}")
+        print(f"response: {raw_out}")
+
     accuracy1 = query1_correct / total
     accuracy2 = query2_correct / total
     accuracy3 = query3_correct / total
