@@ -78,5 +78,13 @@ if __name__ == "__main__":
     path = "/home/cap6412.student20/git/Video-LLaVA/eval/llava-bench-in-the-wild/images/010.jpg"
     run_img_inference(qs, path)
     print("\n============================================\n")
-
-
+    print( "Sample POPE: ")
+    qs = "Is there a traffic light in the image?\nAnswer the question using a single word or phrase."
+    path = "/datasets/MSCOCO17/train2017/000000458338.jpg"
+    run_img_inference(qs, path)
+    print("\n============================================\n")
+    print("Sample MMBENCH")
+    qs = "Which solution has a higher concentration of green particles?	The diagram below is a model of two solutions. Each green ball represents one particle of solute.	neither; their concentrations are the same	Solution B	Solution A		B	attribute_comparison"
+    path = "/home/cap6412.student20/git/Video-LLaVA/submissions/MMBENCH/Example/318.jpg"
+    run_img_inference(qs, path)
+    print("\n============================================\n")
