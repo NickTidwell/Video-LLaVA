@@ -1,4 +1,4 @@
-import openai
+# import openai
 import os
 import argparse
 import json
@@ -18,62 +18,62 @@ def parse_args():
     return args
 
 
-def annotate(prediction_set, caption_files, output_dir, args):
-    """
-    Evaluates question and answer pairs using GPT-3
-    Returns a score for correctness.
-    """
-    # Set the OpenAI API key.
-    openai.api_key = args.api_key
-    if args.api_base is not None:
-        openai.api_base = args.api_base
-    for file in caption_files:
-        key = file[:-5] # Strip file extension
-        qa_set = prediction_set[key]
-        question = qa_set['q']
-        answer = qa_set['a']
-        pred = qa_set['pred']
-        try:
-            # Compute the correctness score
-            completion = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=[
-                    {
-                        "role": "system",
-                        "content":
-                            "You are an intelligent chatbot designed for evaluating the correctness of generative outputs for question-answer pairs. "
-                            "Your task is to compare the predicted answer with the correct answer and determine if they match meaningfully. Here's how you can accomplish the task:"
-                            "------"
-                            "##INSTRUCTIONS: "
-                            "- Focus on the meaningful match between the predicted answer and the correct answer.\n"
-                            "- Consider synonyms or paraphrases as valid matches.\n"
-                            "- Evaluate the correctness of the prediction compared to the answer."
-                    },
-                    {
-                        "role": "user",
-                        "content":
-                            "Please evaluate the following video-based question-answer pair:\n\n"
-                            f"Question: {question}\n"
-                            f"Correct Answer: {answer}\n"
-                            f"Predicted Answer: {pred}\n\n"
-                            "Provide your evaluation only as a yes/no and score where the score is an integer value between 0 and 5, with 5 indicating the highest meaningful match. "
-                            "Please generate the response in the form of a Python dictionary string with keys 'pred' and 'score', where value of 'pred' is  a string of 'yes' or 'no' and value of 'score' is in INTEGER, not STRING."
-                            "DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. "
-                            "For example, your response should look like this: {'pred': 'yes', 'score': 4.8}."
-                    }
-                ]
-            )
-            # Convert response to a Python dictionary.
-            response_message = completion["choices"][0]["message"]["content"]
-            response_dict = ast.literal_eval(response_message)
-            result_qa_pair = [response_dict, qa_set]
+# def annotate(prediction_set, caption_files, output_dir, args):
+#     """
+#     Evaluates question and answer pairs using GPT-3
+#     Returns a score for correctness.
+#     """
+#     # Set the OpenAI API key.
+#     openai.api_key = args.api_key
+#     if args.api_base is not None:
+#         openai.api_base = args.api_base
+#     for file in caption_files:
+#         key = file[:-5] # Strip file extension
+#         qa_set = prediction_set[key]
+#         question = qa_set['q']
+#         answer = qa_set['a']
+#         pred = qa_set['pred']
+#         try:
+#             # Compute the correctness score
+#             completion = openai.ChatCompletion.create(
+#                 model="gpt-3.5-turbo",
+#                 messages=[
+#                     {
+#                         "role": "system",
+#                         "content":
+#                             "You are an intelligent chatbot designed for evaluating the correctness of generative outputs for question-answer pairs. "
+#                             "Your task is to compare the predicted answer with the correct answer and determine if they match meaningfully. Here's how you can accomplish the task:"
+#                             "------"
+#                             "##INSTRUCTIONS: "
+#                             "- Focus on the meaningful match between the predicted answer and the correct answer.\n"
+#                             "- Consider synonyms or paraphrases as valid matches.\n"
+#                             "- Evaluate the correctness of the prediction compared to the answer."
+#                     },
+#                     {
+#                         "role": "user",
+#                         "content":
+#                             "Please evaluate the following video-based question-answer pair:\n\n"
+#                             f"Question: {question}\n"
+#                             f"Correct Answer: {answer}\n"
+#                             f"Predicted Answer: {pred}\n\n"
+#                             "Provide your evaluation only as a yes/no and score where the score is an integer value between 0 and 5, with 5 indicating the highest meaningful match. "
+#                             "Please generate the response in the form of a Python dictionary string with keys 'pred' and 'score', where value of 'pred' is  a string of 'yes' or 'no' and value of 'score' is in INTEGER, not STRING."
+#                             "DO NOT PROVIDE ANY OTHER OUTPUT TEXT OR EXPLANATION. Only provide the Python dictionary string. "
+#                             "For example, your response should look like this: {'pred': 'yes', 'score': 4.8}."
+#                     }
+#                 ]
+#             )
+#             # Convert response to a Python dictionary.
+#             response_message = completion["choices"][0]["message"]["content"]
+#             response_dict = ast.literal_eval(response_message)
+#             result_qa_pair = [response_dict, qa_set]
 
-            # Save the question-answer pairs to a json file.
-            with open(f"{output_dir}/{key}.json", "w") as f:
-                json.dump(result_qa_pair, f)
+#             # Save the question-answer pairs to a json file.
+#             with open(f"{output_dir}/{key}.json", "w") as f:
+#                 json.dump(result_qa_pair, f)
 
-        except Exception as e:
-            print(f"Error processing file '{key}': {e}")
+#         except Exception as e:
+#             print(f"Error processing file '{key}': {e}")
 
 
 def main():
